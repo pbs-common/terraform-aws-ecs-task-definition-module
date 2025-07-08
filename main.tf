@@ -12,6 +12,8 @@ resource "aws_ecs_task_definition" "task_def" {
   requires_compatibilities = var.requires_compatibilities
   network_mode             = var.network_mode
 
+  track_latest = var.track_latest
+
   dynamic "proxy_configuration" {
     for_each = toset(local.use_envoy_sidecar ? [local.use_envoy_sidecar] : [])
     content {
