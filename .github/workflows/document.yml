@@ -29,7 +29,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup mise
-        uses: jdx/mise-action@v2.2.3
+        uses: jdx/mise-action@v2
+        with:
+          tool_versions: |
+            aqua:cli/cli@2.74.2
 
       - name: "Generate documentation"
         run: ./scripts/document.sh
