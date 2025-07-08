@@ -12,6 +12,9 @@ jobs:
 
       - name: Setup mise
         uses: jdx/mise-action@v2
+        with:
+          tool_versions: |
+            aqua:cli/cli@2.74.2
 
       - name: "Run document script if necessary"
         run: |
