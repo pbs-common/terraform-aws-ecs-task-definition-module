@@ -68,7 +68,7 @@ data "aws_iam_policy_document" "policy_doc" {
       "ssm:GetParameter"
     ]
     resources = [
-      "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${local.ssm_path}*",
+      "arn:aws:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter${local.ssm_path}*",
     ]
   }
 }
@@ -85,7 +85,7 @@ data "aws_iam_policy_document" "vgw_policy_doc" {
     actions = [
       "appmesh:StreamAggregatedResources"
     ]
-    resources = ["arn:aws:appmesh:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:mesh/${var.mesh_name}/virtualGateway/${var.virtual_gateway}"]
+    resources = ["arn:aws:appmesh:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:mesh/${var.mesh_name}/virtualGateway/${var.virtual_gateway}"]
   }
   statement {
     actions = [
@@ -149,7 +149,7 @@ data "aws_iam_policy_document" "task_execution_role_policy_doc" {
       "ssm:GetParameter"
     ]
     resources = [
-      "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${local.ssm_path}*",
+      "arn:aws:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter${local.ssm_path}*",
     ]
   }
 
@@ -165,7 +165,7 @@ data "aws_iam_policy_document" "task_execution_role_policy_doc" {
     for_each = var.use_cwagent_sidecar == true ? [1] : []
     content {
       actions   = ["ssm:GetParameters"]
-      resources = ["arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/ecs-cwagent"]
+      resources = ["arn:aws:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/ecs-cwagent"]
     }
   }
 }

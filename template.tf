@@ -26,7 +26,7 @@ locals {
       "logDriver" : "awslogs",
       "options" : {
         "awslogs-group" : local.log_group_name,
-        "awslogs-region" : data.aws_region.current.name,
+        "awslogs-region" : data.aws_region.current.id,
         "awslogs-stream-prefix" : local.container_name
         "mode" : var.awslogs_driver_mode
       }
@@ -99,7 +99,7 @@ locals {
       "logDriver" : "awslogs",
       "options" : {
         "awslogs-group" : local.log_group_name,
-        "awslogs-region" : data.aws_region.current.name,
+        "awslogs-region" : data.aws_region.current.id,
         "awslogs-stream-prefix" : "xray"
       }
     }
@@ -119,7 +119,7 @@ locals {
       "logDriver" : "awslogs",
       "options" : {
         "awslogs-group" : local.log_group_name,
-        "awslogs-region" : data.aws_region.current.name,
+        "awslogs-region" : data.aws_region.current.id,
         "awslogs-stream-prefix" : "firelens"
       }
     }
@@ -138,7 +138,7 @@ locals {
     "environment" : [
       {
         "name" : "APPMESH_RESOURCE_ARN",
-        "value" : "arn:aws:appmesh:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:mesh/${local.null_safe_mesh_name}/virtualGateway/${local.null_safe_virtual_gateway}"
+        "value" : "arn:aws:appmesh:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:mesh/${local.null_safe_mesh_name}/virtualGateway/${local.null_safe_virtual_gateway}"
       },
       {
         "name" : "ENABLE_ENVOY_XRAY_TRACING",
@@ -172,7 +172,7 @@ locals {
     "environment" : [
       {
         "name" : "APPMESH_RESOURCE_ARN",
-        "value" : "arn:aws:appmesh:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:mesh/${local.null_safe_mesh_name}/virtualNode/${local.null_safe_virtual_node}"
+        "value" : "arn:aws:appmesh:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:mesh/${local.null_safe_mesh_name}/virtualNode/${local.null_safe_virtual_node}"
       },
       {
         "name" : "ENABLE_ENVOY_XRAY_TRACING",
@@ -195,7 +195,7 @@ locals {
       "logDriver" : "awslogs",
       "options" : {
         "awslogs-group" : local.log_group_name,
-        "awslogs-region" : data.aws_region.current.name,
+        "awslogs-region" : data.aws_region.current.id,
         "awslogs-stream-prefix" : "proxy"
       }
     }
@@ -216,7 +216,7 @@ locals {
       "options" : {
         "awslogs-create-group" : "true",
         "awslogs-group" : "/ecs/ecs-cwagent",
-        "awslogs-region" : data.aws_region.current.name,
+        "awslogs-region" : data.aws_region.current.id,
         "awslogs-stream-prefix" : "ecs"
       }
     }
