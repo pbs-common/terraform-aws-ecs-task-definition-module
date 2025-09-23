@@ -10,7 +10,7 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/*.tf'
+      - '*.tf'
 concurrency: document-${{ github.base_ref }}
 jobs:
   document:

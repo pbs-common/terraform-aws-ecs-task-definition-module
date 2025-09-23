@@ -26,7 +26,7 @@ variable "repo" {
 }
 
 variable "owner" {
-  description = "Tag used to group resources according to product"
+  description = "Tag used to group resources according to product."
   type        = string
   validation {
     condition     = can(regex("[a-z\\-]+", var.owner))

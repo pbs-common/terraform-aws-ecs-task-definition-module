@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'terraform/*.tf'
+      - '*.tf'
 concurrency: release-${{ github.base_ref }}
 jobs:
   release:
