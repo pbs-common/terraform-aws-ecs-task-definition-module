@@ -13,7 +13,7 @@ variable "environment" {
 variable "product" {
   description = "Tag used to group resources according to application"
 
-  default = "tf-ecs-task-def-virtual-node-newrelic"
+  default = "tf-ecs-task-def-vnode-newrelic"
 
   validation {
     condition     = can(regex("[a-z\\-]+", var.product))
@@ -29,6 +29,17 @@ variable "repo" {
   validation {
     condition     = can(regex("(?:git|ssh|https?|git@[-\\w.]+):(\\/\\/)?(.*?)(\\.git)(\\/?|\\#[-\\d\\w._]+?)$", var.repo))
     error_message = "The repo variable violates approved regex."
+  }
+}
+
+variable "owner" {
+  description = "Tag used to group resources according to product"
+
+  default = "plops"
+
+  validation {
+    condition     = can(regex("[a-z\\-]+", var.owner))
+    error_message = "The product variable violates approved regex."
   }
 }
 

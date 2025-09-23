@@ -5,5 +5,5 @@ import (
 )
 
 func TestVirtualNodeNewRelicExample(t *testing.T) {
-	testTaskDef(t, "virtual-node-newrelic")
+	testTaskDef(t, "vnode-newrelic")
 }
