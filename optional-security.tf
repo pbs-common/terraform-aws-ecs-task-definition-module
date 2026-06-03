@@ -45,3 +45,41 @@ variable "task_execution_role_name" {
   default     = null
   type        = string
 }
+
+variable "vpc_id" {
+  description = "(optional) VPC ID for the task security group. Required when ingress_rules or egress_rules are provided."
+  default     = null
+  type        = string
+}
+
+variable "ingress_rules" {
+  description = "(optional) List of ingress rules for the task security group. A security group is created automatically when this list is non-empty."
+  default     = []
+  type = list(object({
+    from_port       = number
+    to_port         = number
+    protocol        = string
+    description     = optional(string, "")
+    cidr_blocks     = optional(list(string), [])
+    security_groups = optional(list(string), [])
+  }))
+}
+
+variable "egress_rules" {
+  description = "(optional) List of egress rules for the task security group. A security group is created automatically when this list is non-empty."
+  default     = []
+  type = list(object({
+    from_port       = number
+    to_port         = number
+    protocol        = string
+    description     = optional(string, "")
+    cidr_blocks     = optional(list(string), [])
+    security_groups = optional(list(string), [])
+  }))
+}
+
+variable "security_group_name" {
+  description = "(optional) Name for the task security group. Defaults to \"<name>-task\" when not set."
+  default     = null
+  type        = string
+}
