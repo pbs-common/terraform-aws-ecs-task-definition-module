@@ -10,7 +10,8 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 resource "aws_iam_role" "task_role" {
-  name_prefix = "${local.name}-"
+  name        = var.task_role_name
+  name_prefix = var.task_role_name == null ? "${local.name}-" : null
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
@@ -114,7 +115,8 @@ resource "aws_iam_role_policy" "task_role_policy" {
 }
 
 resource "aws_iam_role" "task_execution_role" {
-  name_prefix = "${local.name}-exec-"
+  name        = var.task_execution_role_name
+  name_prefix = var.task_execution_role_name == null ? "${local.name}-exec-" : null
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
