@@ -33,3 +33,15 @@ variable "runtime_platform" {
     cpu_architecture        = optional(string, "X86_64")
   })
 }
+
+variable "task_role_name" {
+  description = "(optional) Fixed name for the task IAM role. If null, a name_prefix is used instead."
+  default     = null
+  type        = string
+}
+
+variable "task_execution_role_name" {
+  description = "(optional) Fixed name for the task execution IAM role. If null, a name_prefix is used instead."
+  default     = null
+  type        = string
+}
