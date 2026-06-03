@@ -215,3 +215,47 @@ resource "aws_iam_role_policy_attachment" "extra_task_execution_role_policy" {
   role       = aws_iam_role.task_execution_role.name
   policy_arn = aws_iam_policy.extra_task_execution_role_policy[0].arn
 }
+
+resource "aws_security_group" "task_sg" {
+  count = length(var.ingress_rules) > 0 || length(var.egress_rules) > 0 ? 1 : 0
+
+  name        = var.security_group_name != null ? var.security_group_name : "${local.name}-task"
+  description = "Security group for ${local.name} ECS task"
+  vpc_id      = var.vpc_id
+
+  dynamic "ingress" {
+    for_each = var.ingress_rules
+    content {
+      from_port       = ingress.value.from_port
+      to_port         = ingress.value.to_port
+      protocol        = ingress.value.protocol
+      description     = ingress.value.description
+      cidr_blocks     = ingress.value.cidr_blocks
+      security_groups = ingress.value.security_groups
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.egress_rules
+    content {
+      from_port       = egress.value.from_port
+      to_port         = egress.value.to_port
+      protocol        = egress.value.protocol
+      description     = egress.value.description
+      cidr_blocks     = egress.value.cidr_blocks
+      security_groups = egress.value.security_groups
+    }
+  }
+
+  tags = {
+    Name        = "${local.name} Task Security Group"
+    application = var.product
+    environment = var.environment
+    creator     = local.creator
+    repo        = var.repo
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
