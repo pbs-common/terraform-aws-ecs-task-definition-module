@@ -10,8 +10,8 @@ locals {
 
   effective_task_role_arn           = var.task_role_arn != null ? var.task_role_arn : one(aws_iam_role.task_role[*].arn)
   effective_task_execution_role_arn = var.task_execution_role_arn != null ? var.task_execution_role_arn : one(aws_iam_role.task_execution_role[*].arn)
-  get_newrelic_secret             = var.newrelic_secret_arn == null && var.newrelic_secret_name != null
-  newrelic_secret_arn             = var.newrelic_secret_arn != null ? var.newrelic_secret_arn : local.get_newrelic_secret ? data.aws_secretsmanager_secret.newrelic_secret[0].arn : ""
+  get_newrelic_secret               = var.newrelic_secret_arn == null && var.newrelic_secret_name != null
+  newrelic_secret_arn               = var.newrelic_secret_arn != null ? var.newrelic_secret_arn : local.get_newrelic_secret ? data.aws_secretsmanager_secret.newrelic_secret[0].arn : ""
 
   creator = "terraform"
 
