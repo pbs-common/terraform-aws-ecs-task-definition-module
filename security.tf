@@ -10,6 +10,8 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 resource "aws_iam_role" "task_role" {
+  count = var.task_role_arn == null ? 1 : 0
+
   name        = var.task_role_name
   name_prefix = var.task_role_name == null ? "${local.name}-" : null
 
@@ -25,7 +27,7 @@ resource "aws_iam_role" "task_role" {
 }
 
 data "aws_iam_policy_document" "policy_doc" {
-  count = var.role_policy_json == null ? 1 : 0
+  count = var.role_policy_json == null && var.task_role_arn == null ? 1 : 0
   statement {
     actions = [
       "cloudwatch:PutMetricData",
@@ -75,7 +77,7 @@ data "aws_iam_policy_document" "policy_doc" {
 }
 
 data "aws_iam_policy_document" "vgw_policy_doc" {
-  count = var.role_policy_json == null && local.use_virtual_gateway_def ? 1 : 0
+  count = var.role_policy_json == null && local.use_virtual_gateway_def && var.task_role_arn == null ? 1 : 0
   statement {
     actions = [
       "cloudwatch:PutMetricData"
@@ -108,13 +110,17 @@ data "aws_iam_policy_document" "vgw_policy_doc" {
 }
 
 resource "aws_iam_role_policy" "task_role_policy" {
+  count = var.task_role_arn == null ? 1 : 0
+
   name_prefix = "${local.name}-"
-  role        = aws_iam_role.task_role.name
+  role        = aws_iam_role.task_role[0].name
 
   policy = local.role_policy_json
 }
 
 resource "aws_iam_role" "task_execution_role" {
+  count = var.task_execution_role_arn == null ? 1 : 0
+
   name        = var.task_execution_role_name
   name_prefix = var.task_execution_role_name == null ? "${local.name}-exec-" : null
 
@@ -130,7 +136,7 @@ resource "aws_iam_role" "task_execution_role" {
 }
 
 data "aws_iam_policy_document" "task_execution_role_policy_doc" {
-  count = var.task_execution_role_policy_json == null ? 1 : 0
+  count = var.task_execution_role_policy_json == null && var.task_execution_role_arn == null ? 1 : 0
   statement {
     actions = [
       "ecr:GetAuthorizationToken",
@@ -173,21 +179,23 @@ data "aws_iam_policy_document" "task_execution_role_policy_doc" {
 }
 
 resource "aws_iam_role_policy" "task_execution_role_policy" {
+  count = var.task_execution_role_arn == null ? 1 : 0
+
   name_prefix = "${local.name}-"
-  role        = aws_iam_role.task_execution_role.name
+  role        = aws_iam_role.task_execution_role[0].name
 
   policy = local.task_execution_role_policy_json
 }
 
 resource "aws_iam_role_policy_attachment" "cw_agent" {
-  count = var.use_cwagent_sidecar ? 1 : 0
+  count = var.use_cwagent_sidecar && var.task_role_arn == null ? 1 : 0
 
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  role       = aws_iam_role.task_role.name
+  role       = aws_iam_role.task_role[0].name
 }
 
 resource "aws_iam_policy" "extra_role_policy" {
-  count = var.extra_role_policy_json != null ? 1 : 0
+  count = var.extra_role_policy_json != null && var.task_role_arn == null ? 1 : 0
 
   name        = "${local.name}-extra-role-policy"
   description = "Extra role policy"
@@ -195,14 +203,14 @@ resource "aws_iam_policy" "extra_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "extra_role_policy" {
-  count = var.extra_role_policy_json != null ? 1 : 0
+  count = var.extra_role_policy_json != null && var.task_role_arn == null ? 1 : 0
 
-  role       = aws_iam_role.task_role.name
+  role       = aws_iam_role.task_role[0].name
   policy_arn = aws_iam_policy.extra_role_policy[0].arn
 }
 
 resource "aws_iam_policy" "extra_task_execution_role_policy" {
-  count = var.extra_task_execution_role_policy_json != null ? 1 : 0
+  count = var.extra_task_execution_role_policy_json != null && var.task_execution_role_arn == null ? 1 : 0
 
   name        = "${local.name}-extra-task-execution-policy"
   description = "Extra role policy"
@@ -210,9 +218,9 @@ resource "aws_iam_policy" "extra_task_execution_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "extra_task_execution_role_policy" {
-  count = var.extra_task_execution_role_policy_json != null ? 1 : 0
+  count = var.extra_task_execution_role_policy_json != null && var.task_execution_role_arn == null ? 1 : 0
 
-  role       = aws_iam_role.task_execution_role.name
+  role       = aws_iam_role.task_execution_role[0].name
   policy_arn = aws_iam_policy.extra_task_execution_role_policy[0].arn
 }
 

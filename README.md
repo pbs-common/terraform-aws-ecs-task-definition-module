@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-task-definition-module?ref=3.2.0
+github.com/pbs/terraform-aws-ecs-task-definition-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "task" {
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=3.2.0"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=x.y.z"
 
   # Tagging Parameters
   organization = var.organization
@@ -40,7 +40,7 @@ module "task" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`3.2.0`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -64,7 +64,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.46.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.51.0 |
 
 ## Modules
 
@@ -138,9 +138,11 @@ No modules.
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | (optional) name of the service running this task. Only important here because the AWS console defaults to `/ecs/service_name` when displaying logs for a service | `string` | `null` | no |
 | <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | (optional) path to the ssm parameters you want pulled into your container during execution of the entrypoint | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Extra tags | `map(string)` | `{}` | no |
+| <a name="input_task_execution_role_arn"></a> [task\_execution\_role\_arn](#input\_task\_execution\_role\_arn) | (optional) ARN of an existing IAM role to use as the task execution role. If provided, no task execution role is created by this module and execution role policies are not managed. | `string` | `null` | no |
 | <a name="input_task_execution_role_name"></a> [task\_execution\_role\_name](#input\_task\_execution\_role\_name) | (optional) Fixed name for the task execution IAM role. If null, a name\_prefix is used instead. | `string` | `null` | no |
 | <a name="input_task_execution_role_policy_json"></a> [task\_execution\_role\_policy\_json](#input\_task\_execution\_role\_policy\_json) | (optional) IAM policy to attach to task execution role used for this task and replace defaults | `string` | `null` | no |
 | <a name="input_task_family"></a> [task\_family](#input\_task\_family) | (optional) task family for task. This is effectively the name of the task, without qualification of revision | `string` | `null` | no |
+| <a name="input_task_role_arn"></a> [task\_role\_arn](#input\_task\_role\_arn) | (optional) ARN of an existing IAM role to use as the task role. If provided, no task role is created by this module and role-related policies are not managed. | `string` | `null` | no |
 | <a name="input_task_role_name"></a> [task\_role\_name](#input\_task\_role\_name) | (optional) Fixed name for the task IAM role. If null, a name\_prefix is used instead. | `string` | `null` | no |
 | <a name="input_track_latest"></a> [track\_latest](#input\_track\_latest) | (optional) Whether should track latest ACTIVE task definition on AWS or the one created with the resource stored in state. | `bool` | `false` | no |
 | <a name="input_use_cwagent_sidecar"></a> [use\_cwagent\_sidecar](#input\_use\_cwagent\_sidecar) | (optional) if set to true, will add a cwagent sidecar container | `bool` | `false` | no |

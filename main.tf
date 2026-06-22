@@ -1,8 +1,8 @@
 resource "aws_ecs_task_definition" "task_def" {
   family = local.task_family
 
-  task_role_arn      = aws_iam_role.task_role.arn
-  execution_role_arn = aws_iam_role.task_execution_role.arn
+  task_role_arn      = local.effective_task_role_arn
+  execution_role_arn = local.effective_task_execution_role_arn
 
   container_definitions = local.container_definitions
 
