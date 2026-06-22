@@ -1,3 +1,15 @@
+variable "task_role_arn" {
+  description = "(optional) ARN of an existing IAM role to use as the task role. If provided, no task role is created by this module and role-related policies are not managed."
+  default     = null
+  type        = string
+}
+
+variable "task_execution_role_arn" {
+  description = "(optional) ARN of an existing IAM role to use as the task execution role. If provided, no task execution role is created by this module and execution role policies are not managed."
+  default     = null
+  type        = string
+}
+
 variable "role_policy_json" {
   description = "(optional) IAM policy to attach to role used for this task and replace defaults"
   default     = null

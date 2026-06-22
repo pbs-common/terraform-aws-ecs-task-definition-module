@@ -5,7 +5,7 @@ output "arn" {
 
 output "role_arn" {
   description = "IAM role ARN"
-  value       = aws_iam_role.task_role.arn
+  value       = local.effective_task_role_arn
 }
 
 output "container_definitions" {
